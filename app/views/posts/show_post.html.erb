@@ -1,0 +1,55 @@
+<%= render partial: 'shared/nav' %>
+<div>
+  <h3><%= @post.message %></h3>
+
+  <% if @post.image.attached? %>
+    <%= image_tag @post.image, class: "image" %>
+  <% end %>
+  <h5>Posted: <%= @post.created_at %></h5>
+</div>
+
+<%= @post.likes.count %> Likes
+
+<% current_user =  User.find(session[:user_id]) %>
+<% like = current_user.likes.find_by(post: @post) %>
+
+<% if like.nil? %>
+  <%= button_to "Like", likes_path, params: { like: { post_id: @post.id }}, method: :post %>
+<% else %>
+  <%= button_to "Unlike", like_path(like), method: :delete %>
+<% end %>
+
+<p>
+  <% if @post.user_id != session[:user_id] %>
+    <%= link_to "Edit", edit_post_path(@post) %> |
+    <%= link_to "Delete", @post, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+  <% end %>
+</p>
+
+<div id="comment-form" d="comment-form" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; width: 100%;">
+    <%= form_for [@post, @comment] do |f| %>
+      <div style ="margin-bottom: 10px">
+        <%= f.label :message_comment, "Leave a comment",  style: "font-size: 1.2em; font-weight: bold;" %>
+      </div>
+      <div>
+        <%= f.text_area :message_comment, size: "60x10" %>
+      </div>
+        <%= f.hidden_field :post_id, value: @post.id %>
+        <div>
+        <%= f.submit "Add Comment" %>
+        </div>
+    <% end %>
+</div>
+
+
+<h3>Comments</h3>
+<% @post.comments.reverse.each do |c| %>
+  <div id="single-comment">
+    <h4>Comment</h4>
+    <h5>From - <%= c.user.username %></h5>
+    <h6><%= c.message_comment %></h6>
+  </div>
+<% end %>
+
+
+<hr />

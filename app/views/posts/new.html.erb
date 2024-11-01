@@ -1,0 +1,18 @@
+<%= render partial: 'shared/nav' %>
+<%= form_with model: @post, local: true, html: { multipart: true } do |form| %>
+
+  <%= form.label :message %>
+  <%= form.text_field :message %>
+
+  <div>
+    <%= form.label :image, style: "display: block" %>
+    <%= form.file_field :image %>
+  </div>
+
+  <%= form.submit "Submit Post" %>
+
+<% end %>
+
+
+
+

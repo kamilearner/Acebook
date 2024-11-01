@@ -1,0 +1,52 @@
+<%= render partial: 'shared/nav' %>
+
+
+<div>
+  <% if @user.id == session[:user_id] %>
+      <h1> Hi <%= @user.username %> !</h1>
+  <% else %>
+      <h1> Welcome to <%= @user.username %>'s page </h1>
+  <% end %>
+</div>
+
+
+<% @posts.each do |post| %>
+
+  <div>
+    <h3><%= link_to post.message, post %></h3>
+
+    <% if post.image.attached? %>
+      <%= image_tag post.image, class: "image" %>
+    <% end %>
+
+    <h5>Posted: <%= post.created_at %></h5>
+
+  </div>
+  <p>
+    <% if post.user_id == session[:user_id] %>
+        <%= link_to "Edit", edit_post_path(post) %> |
+        <%= link_to "Delete", post, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %>
+    <% end %>
+  </p>
+  <hr />
+
+<% end %> 
+
+<br>
+<% if @user.id == session[:user_id] %>
+  <%= link_to new_post_path do %>
+    Add a New post
+  <% end %>
+<% end %>
+
+<% if @user.id == session[:user_id] %>
+  <%= button_to 'Delete Account', user_path(@user), method: :delete, data: { confirm: "Are you sure you want to delete your account?" }%>
+<% end %>
+
+<!--<%= link_to logout_path do %>
+  Log Out
+<% end %>-->
+
+<!-- <%= link_to friends_path do %>
+  My Friends
+<% end %> -->

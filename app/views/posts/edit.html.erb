@@ -1,0 +1,15 @@
+<%= render partial: 'shared/nav' %>
+<h1>Edit Post</h1>
+
+<%= form_for @post do |f| %>
+    <p>
+        <%= f.label :message %><br />
+    </p>
+        <p style="white-space: pre-line;">
+        <%= f.text_area :message %>
+    </p>
+    <p>
+        <%= f.submit "Update post" %>
+    </p>
+
+<% end %>

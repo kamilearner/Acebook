@@ -1,0 +1,16 @@
+<%= render partial: 'shared/nav' %>
+
+<% @posts.each do |post| %>
+  <p>
+    <%= post.message %>
+  </p>
+  <% if post.image.attached? %>
+    <%= image_tag post.image %>
+  <% end %>
+<% end %>
+
+<%= link_to new_post_path do %>
+  New post
+<% end %>
+
+

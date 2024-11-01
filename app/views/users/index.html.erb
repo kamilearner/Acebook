@@ -1,0 +1,26 @@
+<%= render partial: 'shared/nav' %>
+<h1>My friends</h1>
+
+<h3>People you follow</h3>
+<% @following_users.each do |user| %>
+  <li>
+    <p>
+      <%= link_to user[0], "users/#{user[1]}" %>
+    </p>
+     <%= button_to 'Unfollow', follower_path(user[1]), method: :delete, data: { confirm: 'Are you sure you want to unfollow this user?' } %>
+  </li>
+<% end %>
+
+<h3>People you might know</h3>
+<ul>
+  <% @users.each do |user| %>
+    <% if user.id != session[:user_id] && !@following_users.map(&:last).include?(user.id) %>
+      <li>
+        <p>
+          <%= link_to user.username, "users/#{user.id}" %>
+        </p>
+        <%= button_to 'Follow', followers_path(follower: { followed_id: user.id }), method: :post %>
+      </li>
+    <% end %>
+  <% end %>
+</ul>

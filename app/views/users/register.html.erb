@@ -1,0 +1,19 @@
+<div class="login-container">
+<h1> Register to Acebook</h1>
+
+<%= form_with model: @user, url: register_path, local: true do |form| %>
+    
+    <div>
+        <%= form.label :username %>
+        <%= form.text_field :username, required: true %>
+    </div>
+    <div>
+        <%= form.label :password %>
+        <%= form.password_field :password, required: true %>
+    </div>
+
+    <div>
+        <%= form.submit "Register" %>
+    </div>
+<% end %>
+</div>
